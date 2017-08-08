@@ -1,0 +1,65 @@
+.ct ul,
+.ct li{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ct{
+  position: relative;
+  height: 180px;
+  width: 320px;
+  overflow: hidden;
+}
+.ct .img-ct{
+  position: absolute;
+  width: 1200px;
+  overflow: hidden;
+}
+.ct .img-ct>li{
+  float: left;
+}
+.ct .img-ct img{
+  width: 320px;
+  height: 180px;
+}
+.arrow{
+  position: absolute;
+  top: 70px;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  line-height: 30px;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+}
+.arrow:hover{
+  opacity: 0.8;
+}
+.pre{
+  left: 10px;
+}
+.next{
+  position: absolute;
+  left: 270px;
+}
+.bullet{
+  position: absolute;
+  bottom: 15px;
+  left: 60px;
+  width: 200px;
+  height: 10px;
+  text-align: center;
+}
+.bullet>li{
+  display: inline-block;
+  width: 30px;
+  height: 5px;
+  border: 1px solid #fff;
+  cursor: pointer;
+}
+.active{
+  background-color: #ADADAD;
+}

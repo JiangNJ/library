@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<style>
+        a {
+            text-decoration: none;
+            color: white;
+        }
+        
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        
+        .clearfix::after {
+            content: '';
+            display: block;
+            visibility: hidden;
+            clear: both;
+        }
+        
+        .slider-ct {
+            width: 500px;
+            height: 375px;
+            position: relative;
+        }
+        
+        .slider {
+            position: relative;
+            height: 375px;
+            width: 500px;
+        }
+        
+        .slider > li {
+            position: absolute;
+            left: 10px;
+            display: none;/*核心点，开始全部都隐藏*/
+        }
+        /*左右按钮*/
+        
+        .btn {
+            position: absolute;
+            top: 50%;
+            margin-top: -15px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #000;
+            opacity: 0.6;
+            color: #fff;
+            display: block;
+            text-align: center;
+            line-height: 30px;
+        }
+        
+        .btn-pre {
+            left: 10px;
+        }
+        
+        .btn-next {
+            right: 10px;
+        }
+        
+        .bullet-ct {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+        
+        .bullet {
+            display: inline-block;
+        }
+        
+        .bullet>li {
+            width: 20px;
+            height: 5px;
+            border-radius: 3px;
+            background-color: #fff;
+            margin: 0 5px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        .bullet>li.active {
+            background: #666;
+        }
+</style>
+</head>
+
+<body>
+    <div class="slider-ct">
+        <ul class="slider">
+            <li>
+                <a href="#">
+                    <img src="./imgs/2.jpg" alt="">
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="./imgs/3.jpg" alt="">
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="./imgs/4.jpg" alt="">
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="./imgs/5.jpg" alt="">
+                </a>
+            </li>
+        </ul>
+        <a href="" class="btn btn-pre"><</a>
+        <a href="" class="btn btn-next">></a>
+        <div class="bullet-ct">
+            <ul class="bullet">
+                <li class="active"></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+<script src="./jquery-3.2.0.min.js"></script>
+<script>
+$nextbtn = $('.btn-next')
+$imgList = $('.slider').children()
+$prebtn = $('.btn-pre')
+$bullet = $('.bullet')
+$imgLength = $imgList.length
+
+
+var currentIndex = 0
+var isFading = false
+var clock
+play(0)
+autoPlay()
+    
+$nextbtn.click(function(e){
+    e.preventDefault()
+    stopAuto()
+    playNext(1)
+})
+
+$prebtn.on('click',function(e){
+    e.preventDefault()
+    stopAuto()
+    playPre(1)
+})
+$bullet.on('click', 'li', function(e){                  //事件代理
+    stopAuto()
+    var currentBullet = $(e.target).index()
+    play(currentBullet)
+    setBullet(currentBullet)
+})
+
+function playNext(){
+    play((currentIndex+1)%$imgLength)
+}
+function playPre(){
+    play((currentIndex+$imgLength-1)%$imgLength)
+}
+function play(targetIndex){
+    if(isFading){
+        return 
+    }
+    isFading = true
+    $imgList.eq(currentIndex).fadeOut(500)
+    $imgList.eq(targetIndex).fadeIn(500, function(){
+        isFading = false
+    })
+    currentIndex = targetIndex
+    setBullet(targetIndex)
+}
+
+function setBullet(idx){
+    $bullet.children()
+            .removeClass('active')
+            .eq(idx)
+            .addClass('active')
+    }
+    
+function autoPlay(){
+    clock = setInterval(function(){
+            playNext()
+        },2000)
+}
+
+function stopAuto(){
+    clearInterval(clock)
+}
+</script>
+</html>
