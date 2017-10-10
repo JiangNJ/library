@@ -1,7 +1,7 @@
 
 var $ = require('../lib/jquery-3.2.0.min.js')
 
-封装一个Ajax
+//封装一个Ajax
 var Ajax = function(url,type,success,error){
     $.ajax({
         url: url,
@@ -19,13 +19,13 @@ var Ajax = function(url,type,success,error){
 }
 
 
-使用方法： 
+//使用方法： 
 Ajax('/data.json','get',function(data){
     console.log(data)
 })
 
 
-后台新建一个Ajax
+//后台新建一个Ajax
 var xhr = new XMLHttpRequest();
 xhr.open('get/post',url,true)
 xhr.onreadystatechange = function(){

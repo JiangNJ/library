@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        ul,li{
+        margin: 0;
+        padding: 0
+      }
+      #ct li{
+        list-style:none;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-top: 10px;
+        cursor:pointer;
+      }
+      #load-more{
+          display: block;
+          margin: 10px auto;
+          text-align: center;
+          cursor: pointer;
+      }
+      #load-more img{
+          width: 40px;
+          height: 40px;
+      }
+      .btn{
+          display: inline-block;
+          height: 40px;
+          line-height: 40px;
+          width: 80px;
+          border: 1px solid #E27272;
+          border-radius: 3px;
+          text-align: center;
+          text-decoration: none;
+          color: #E27272;
+      }
+      .btn:hover,li:hover{
+        background: green;
+        color: #fff;
+      }
+    
+        </style>
+</head>
+<body>
+    <ul id="ct">
+      </ul>
+        <a id="load-more" class="btn" href="javascript:void(0)">加载更多</a>
+</body>
+<script>
+    var btn = document.querySelector('#load-more')
+    var ct = document.querySelector('#ct')
+    var pageIndex = 1
+
+    btn.addEventListener('click', function(){
+        var xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState === 4){
+              if(xhr.status === 200 || xhr.status ===304){
+                var results = JSON.parse(xhr.responseText)
+                console.log(results)
+                var fragment = document.createDocumentFragment()
+                for(var i = 0;i<results.length;i++){
+                  var node = document.createElement('li')
+                  node.innerText = results[i]
+                  fragment.appendChild(node)
+                }
+                ct.appendChild(fragment)
+
+                pageIndex = pageIndex + 5
+              }else{
+                alert('错误')
+              }
+            }
+        }
+        xhr.open('get','/loadMore?index='+pageIndex+'&length=5',true)
+        xhr.send()
+    })
+</script>
+
+</html>
