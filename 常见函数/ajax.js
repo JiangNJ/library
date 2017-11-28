@@ -29,7 +29,7 @@ Ajax('/data.json','get',function(data){
 var xhr = new XMLHttpRequest();
 xhr.open('get/post',url,true)
 xhr.onreadystatechange = function(){
-    if(xjr.readyState == 4 && xhr.status == 200){
+    if(xhr.readyState == 4 && xhr.status == 200){
         alert()
     }
 }

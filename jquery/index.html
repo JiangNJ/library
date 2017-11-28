@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>来看新闻啦</title>
+  <link rel="stylesheet" type="text/css" href="https://at.alicdn.com/t/font_440128_zzh2f8adqybhjjor.css">
+  <style>
+    ul,li{
+      list-style: none;
+    }
+    html,body,h2,p,ul,li{
+      margin: 0;
+      padding: 0;
+    }
+    .ct{
+      width: 500px;
+      margin: 0 auto;
+    }
+    .item:first-child{
+      margin-top: 20px;
+    }
+    .item{
+      padding: 10px;
+    }
+    .item:after{
+      content: '';
+      display: block;
+      clear: both;
+    }
+    .item .thumb img{
+      width: 160px;
+      height: 100px;
+      float: right;
+      margin-top: 26px;
+    }
+    .item h2{
+      color: #7B7171;
+      font-size: 18px;
+    }
+    .item p{
+      font-size: 12px;
+      color: #BABBB9;
+      margin-top: 10px;
+    }
+    span{
+      color: #448aff;
+      font-size: 12px;
+      margin-bottom: 3px;
+      line-height: 23px;
+    }
+    #loadMore{
+      width: 120px;
+      border: 1px solid blue;
+      padding: 0 20px;
+      text-align: center;
+      line-height: 28px;
+      margin: 10px auto;
+      background: white;
+    }
+    a{
+      text-decoration: none;
+      color: blue;
+    }
+    .last{
+      width: 500px;
+      border: 1px solid;
+      text-align: center;
+      margin-bottom: 200px;
+      margin-top: 100px;
+    }
+  </style>
+</head>
+<body>
+<div class="ct">
+  <ul class="news">
+    <!--<li class="item">-->
+      <!--<a href="https://xw.qq.com/zt/2017090112018831/NEW2017090112018831">-->
+        <!--<div class="thumb">-->
+          <!--![十九大召开在即](http://upload-images.jianshu.io/upload_images/6888710-821c8059a5ed6470?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)-->
+          <!--<span class='icon'><i class="iconfont icon-time"></i>  xx分钟前</span>-->
+          <!--<h2>十九大召开在即 9张图读懂18次党代会“极简史”</h2>-->
+          <!--<p>人民日报</p>-->
+        <!--</div>-->
+      <!--</a>-->
+    <!--</li>-->
+  </ul>
+  <button id="loadMore">加载更多</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+    var pageindex = 1;
+    $('#loadNews').on('click',function(){
+        $.get('/getNew',{page:pageindex})
+                .done(function(ret){
+                    if(ret.status === 0){
+                        pageindex++;
+                        appendHtml(ret.data);
+                    }else{
+                        alert('无数据内容')
+                    }
+                })
+                .fail(function(){
+                    alert('Ajax出错')
+                });
+    });
+
+    function appendHtml(news){
+        if(news.length === 0){
+            $('#loadNews').remove();
+            $('.ct').append('<div class="last">没有更多新闻了~</div>')
+        }
+        var html = '';
+        $.each(news,function(){
+            html += '';
+            html += '<li class="item">';
+            html += '<a href="' + this.href + '">';
+            html += '<div class="thumb">';
+            html += '![](' + this.img + ') ';
+            html += '<span>' + '<i class="iconfont icon-time"></i>' + '  ' + this.time + '</span>';
+            html += '<h2 class="card-title">' + this.title + '</h2>';
+            html += '<p>' + this.address + '</p>';
+            html += '</div></a></li>';
+        });
+        $('.new').append(html)
+    }
+</script>
+</body>
+</html>

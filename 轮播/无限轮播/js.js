@@ -1,35 +1,35 @@
-var $imgCt = $('.img-ct')
-var $img = $('.ct .img-ct>li')
-var $preBtn = $('.ct .pre')
-var $nextBtn = $('.ct .next')
-var $bullets = $('.ct .bullet li')
+var $imgCt = $('.img-ct');
+var $img = $('.ct .img-ct>li');
+var $preBtn = $('.ct .pre');
+var $nextBtn = $('.ct .next');
+var $bullets = $('.ct .bullet li');
 
-var pageIndex = 0
-var clock = false
+var pageIndex = 0;
+var lock = false;
 
-var imglength = $img.length
-var imgWidth = $img.width()
-$imgCt.append($img.first().clone())
-$imgCt.prepend($img.last().clone())
-$imgCt.width((imglength+2) * imgWidth)      //原先缓存的时imglength需再加2个复制的元素
-$imgCt.css({left: -imgWidth})
+var imgLength = $img.length;
+var imgWidth = $img.width();
 
+$imgCt.append($img.first().clone());
+$imgCt.perpend($img.last().clone());
+$imgCt.width((imgLength+2)*imgWidth);
+$imgCt.css({left: -imgLength});
 
 $preBtn.click(function(){
-	  playPre(1)
-})
+	  playPre(1);
+});
 $nextBtn.click(function(){
-  	playNext(1)
-})
-$bullets.click(function(){
-  var index = $(this).index()
-  if(index>pageIndex){
-    playNext(index-pageIndex)
-  }else if(index<pageIndex){
-    playPre(pageIndex-index)
-  }
-})
+  	playNext(1);
+});
 
+$bullets.on('click',function(){
+  var index = $(this).index();
+  if(index>pageIndex){
+    playPre(index - pageIndex);
+  }else if(index<pageIndex){
+    playNext(pageIndex - index);
+  }
+});
 
 function playNext(len){
   if(clock) return;
@@ -48,6 +48,7 @@ function playNext(len){
     clock = false
   })
 }
+
 function playPre(len){
   if(clock) return;
   clock = true;
@@ -65,11 +66,10 @@ function playPre(len){
   })
 }
 
-
 function setBullets(){
-  $bullets.removeClass('active')
+  $byllets.removeClass('active')
           .eq(pageIndex)
-          .addClass('active')
+          .addClass('active');
 }
 
-  setInterval(function(){playNext(1)},2000)
+  setInterval(function(){playNext(1);},2000);
